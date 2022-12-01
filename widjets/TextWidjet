@@ -1,0 +1,42 @@
+use ./Widjet;
+
+class TextWidjet = Widjet + {
+    private init String text;
+    private init float width;
+    private init float height;
+
+    event TextUpdated =
+    {
+        public TextWidjet widjet;
+        public String oldText;
+        public String newText;
+    }
+
+    init += (Window window)
+    {
+        window.onKeyboardEvent += this.onKeyboardEvent;
+    }
+
+    public void onKeyboardEvent = (Window.KeyboardEvent event)
+    {
+        oldText = copy(this.text);
+
+        this.updateTextByKeyCode(event.keyCode);
+
+        if(!oldText.equals(this.text))
+        {
+            raise(TextUpdated
+            {
+                widjet: this,
+                oldText: oldText,
+                newText: this.text
+            });
+        }
+    }
+
+    private void updateTextByKeyCode = (String keyCode)
+    {
+        this.text += keyCode;
+    }
+
+}

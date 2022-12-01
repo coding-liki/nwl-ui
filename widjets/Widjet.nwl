@@ -1,0 +1,44 @@
+use /Window;
+
+class Widjet =
+{
+    private init float x;
+    private init float y;
+    private init bool focus = false;
+    private init bool mustBeUnfocused = true;
+    private Window window;
+
+    event Focused =
+    {
+        public init Widjet widjet;
+    }
+
+    public function focus()
+    {
+        oldFocused = this.focused;
+
+        this.focused = true;
+
+        if(!oldFocused)
+        {
+            raise(Focused
+            {
+                widjet: this
+            });
+        }
+    }
+
+    public void init(Window window)
+    {
+        this.window = window;
+        
+        Widjet.onFocused += (Focused event)
+        {
+            if(this.mustBeUnfocused && this !== event.widjet)
+            {
+                this.focus = true;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,53 @@
+use Program;
+use XContext;
+use IO;
+use /Window;
+use /widjet/TextWidjet
+
+class MyProgram = Program +
+{
+    main += {
+        mainWindow = Window
+        {
+            x: 0,
+            y: 0,
+
+        };
+
+        testText = TextWidjet
+        {
+            x: 10,
+            y: 10,
+            width: 200,
+            height: 20,
+            text:  "TestText"
+        };
+
+        newText = TextWidjet
+        {
+            x: 10,
+            y: 40,
+            width: 200,
+            height: 20,
+            text:  "New text"
+        };
+
+
+        mainWindow.addWidjet(testText);
+        mainWindow.addWidjet(newText);
+
+        textUpdatedLogger = (String textName)
+        {
+            return (TextWidjet.TextUpdated event)
+            {
+                IO.printLine(textName+ " changed");
+                IO.printLine("\toldText was"+event.oldText);
+                IO.printLine("\tnewText is"+event.newText);
+            }
+        }
+        testText.onTextUpdated += textUpdatedLogger("testText");
+        newText.onTextUpdated += textUpdatedLogger("newText");
+
+    }
+
+}

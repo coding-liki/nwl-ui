@@ -1,0 +1,31 @@
+use Array;
+use /widjets/Widjet;
+use String;
+
+class Window =
+{
+    private Array<Widjet> widjets = [];
+
+    private init float x;
+    private init float y;
+
+    public Window addWidjet(Widjet widjet)
+    {
+        this.widjets.push(widjet);
+        widjet.initEvents(this);
+
+        return this;
+    }
+
+    event KeyboardEvent =
+    {
+        public init Window window;
+        public init String keyCode;
+    }
+
+    event MouseEvent =
+    {
+        public init Window window;
+        public init String buttonCode;
+    }
+}
